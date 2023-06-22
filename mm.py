@@ -22,10 +22,10 @@ def setup():
     #Setup cv2 classifier
     global cascade
     cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    # is True if a face is currently is detected
+    #is True if a face is currently is detected
     global faceRecognized
     faceRecognized = False
-    # time to analyze the emotion
+    #time to analyze the emotion
     global analyzeTime
     analyzeTime = 5
     #dict for emotions
@@ -38,8 +38,7 @@ def setup():
                 'surprise': 0,
                 'neutral': 0
         }
- 
- 
+
 def start_camera_stream():
     timer = None
     while True:
@@ -47,10 +46,12 @@ def start_camera_stream():
         faceRecognized, faceImage = recognice_face(image)
         #print('facrec',faceRecognized)
         
+        # checks if face is in the picture starts 5 sec emotion analyze while a face is there 
         if(faceRecognized):
             if(timer is None or not timer.is_alive()):
                 timer= threading.Timer(analyzeTime, react_to_emotion)
                 print('Start timer')
+                reset_emotion()
                 timer.start()
             else:
                 analyze_emotion(image)
@@ -58,7 +59,9 @@ def start_camera_stream():
             if(timer is not None and timer.is_alive()):
                 print('Stop timer')
                 timer.cancel()
+                timer = None
                 
+        #show cam stream
         cv2.imshow('Camera Stream',cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
                             
 
@@ -74,7 +77,7 @@ def recognice_face(image):
     faces = cascade.detectMultiScale(imageGray)
     if len(faces) < 1:
         return False, None
-    #return True, _face_frame_(image, faces)
+    return True, _face_frame_(image, faces)
     
     #Cropping the image that only the face is on the image 
     x,y,w,h = faces[0]
@@ -85,7 +88,7 @@ def recognice_face(image):
 def _face_frame_(image, faces):
     for x, y, width, height in faces:
         cv2.rectangle(image, (x, y), (x + width, y + height), color=(255,0,0), thickness=3)
-    return image
+    return True, image
 
 
 
@@ -99,13 +102,21 @@ def analyze_emotion(faceImage):
 
 def react_to_emotion():
     print('Timer finish')
-    print('Are you?',max(emotions, key=emotions.get))
-    print(emotions)
+    global dominantEmotion
+    dominantEmotion = max(emotions, key=emotions.get)
+    print('Are you?',dominantEmotion)
+    write_to_file(dominantEmotion)
     reset_emotion()
 
 def reset_emotion():
     for key in emotions:
         emotions[key] = 0
+        
+def write_to_file(result):
+    file = open('result.txt','w')
+    file.write(result)
+    file.close()
+
 
 if __name__ == '__main__':
     main()
