@@ -6,28 +6,20 @@ from deepface import DeepFace
 
 
 def main():
-    setup()
-    picam.start()
-    start_camera_stream()
-    picam.close()
-
-
-
-def setup():
+    
     #Setup Camera
-    global picam
     picam = Picamera2()
     config = picam.create_preview_configuration()
     picam.configure(config)
+    
     #Setup cv2 classifier
-    global cascade
     cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    #is True if a face is currently is detected
-    global faceRecognized
-    faceRecognized = False
+    
     #time to analyze the emotion
-    global analyzeTime
     analyzeTime = 5
+    #time how fast should the loop iterate min= 0.1
+    loopTime = 0.2
+    
     #dict for emotions
     global emotions
     emotions = {'angry': 0,
@@ -38,12 +30,18 @@ def setup():
                 'surprise': 0,
                 'neutral': 0
         }
+    
+    start_camera_stream(picam, cascade, analyzeTime, loopTime)
+   
+    
 
-def start_camera_stream():
+def start_camera_stream(picam, cascade, analyzeTime, loopTime):
+    picam.start()
     timer = None
     while True:
+        loopStartTime = time.time()
         image=picam.capture_array()
-        faceRecognized, faceImage = recognice_face(image)
+        faceRecognized, faceImage = recognice_face(image, cascade)
         #print('facrec',faceRecognized)
         
         # checks if face is in the picture starts 5 sec emotion analyze while a face is there 
@@ -67,11 +65,18 @@ def start_camera_stream():
 
         if (cv2.waitKey(1) == ord('q')):
             break;
+        
+        #controll how many iterations 
+        loopTimeDiff = time.time()-loopStartTime
+        if(loopTime > loopTimeDiff):
+            time.sleep(loopTime-loopTimeDiff)
+            
     cv2.destroyAllWindows()
+    picam.close()
 
 
 #returns True if a face is recogniced and a cropped image of the face
-def recognice_face(image):
+def recognice_face(image, cascade):
     #convert image to grayscale classifier works better with it
     imageGray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = cascade.detectMultiScale(imageGray)
@@ -91,7 +96,7 @@ def _face_frame_(image, faces):
     return True, image
 
 
-
+# analyze the emotion with Deepface and add the result to the global emotion map
 def analyze_emotion(faceImage):
     prediction = DeepFace.analyze(faceImage,actions='emotion',enforce_detection=False)
     #print(prediction[0]['emotion'].keys())
@@ -108,10 +113,12 @@ def react_to_emotion():
     write_to_file(dominantEmotion)
     reset_emotion()
 
+# set all values in the global emotion map to 0
 def reset_emotion():
     for key in emotions:
         emotions[key] = 0
-        
+
+# write the dominantEmotion into a txt file for the GUI
 def write_to_file(result):
     file = open('result.txt','w')
     file.write(result)
