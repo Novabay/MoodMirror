@@ -14,13 +14,17 @@ def main():
     
     #Setup cv2 classifier
     cascade = cv2.CascadeClassifier('/home/pi/magicmirror/haarcascade_frontalface_default.xml')
-    
+    global scaleFactor
+    scaleFactor = 1.35
+    global minNeighbors
+    minNeighbors = 7
+   
     #time to analyze the emotion
     analyzeTime = 5
     #time how fast should the loop iterate min= 0.1
     loopTime = 0.2
     #time after the person leaves the emotion is deleted from the file
-    resetTime = 6
+    resetTime = 3
     
     #dict for emotions
     global emotions
@@ -89,7 +93,7 @@ def start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime):
 def recognice_face(image, cascade):
     #convert image to grayscale classifier works better with it
     imageGray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    faces = cascade.detectMultiScale(imageGray)
+    faces = cascade.detectMultiScale(imageGray,scaleFactor,minNeighbors)
     if len(faces) < 1:
         return False, None
     return True, _face_frame_(image, faces)
@@ -113,9 +117,6 @@ def _face_frame_(image, faces):
 # add the result to the global emotion map
 def analyze_emotion(faceImage):
     prediction = DeepFace.analyze(faceImage,actions='emotion',enforce_detection=False)
-    #print(prediction[0]['emotion'].keys())
-    #print('HERER',prediction[0]['emotion'])
-    #print(prediction[0]['dominant_emotion'])
     prediction = cut_emotion(prediction,notWantedEmotions)
     __sum_strat__(prediction)
     
