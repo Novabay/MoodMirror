@@ -1,12 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Emotionsergebnis</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>smartmirror</title>
+<meta name="description" content="Screen.">
+<link rel="stylesheet" href="mirror.css">
 </head>
 <body>
-    <h1>Emotionsergebnis:</h1>
-    <div id="emotion-container"></div>
+
+<div id="image-wrapper">
     
-    <script src="mm_script.js"></script>
-</body>
+	<img id="emotion-happy" class="emotion-image" src="happy.jpg" width="1080" height="1920">
+	<img id="emotion-sad" class="emotion-image" src="sad.jpg" width="1080" height="1920">
+	<img id="emotion-surprised" class="emotion-image" src="surprised.jpg" width="1080" height="1920">
+	<img id="emotion-neutral" class="emotion-image" src="neutral.jpg" width="1080" height="1920">
+	<img id="emotion-fear" class="emotion-image" src="fear.jpg" width="1080" height="1920">*/
+	<img id="emotion-angry" class="emotion-image" src="angry.jpg" width="1080" height="1920">
+	<img id="emotion-noperson" class="emotion-image" src="noperson.jpg" width="1080" height="1920">
+</div>
+
+    
+    
+    
+<script>
+
+function updateEmotionScreen( emotion ){
+	
+	// erst alle bilder verstecken:
+	const images = document.querySelectorAll('.emotion-image.active');
+	for( const image of images ) {
+		image.classList.remove('active');
+    }
+   
+    
+	// Je nach Emotionsergebnis wird ein anderes Bild angezeigt
+	if (emotion === "happy") {
+		document.getElementById('emotion-happy').classList.add('active');
+	} else if (emotion === "sad") {
+		document.getElementById('emotion-sad').classList.add('active');
+	} else if (emotion === "surprise") {
+		document.getElementById('emotion-surprised').classList.add('active');
+	} else if (emotion === "neutral") {
+		document.getElementById('emotion-neutral').classList.add('active');
+	} else if (emotion === "fear") {
+		document.getElementById('emotion-fear').classList.add('active');
+	} else if (emotion === "angry") {
+		document.getElementById('emotion-angry').classList.add('active');
+	} else {
+		document.getElementById('emotion-noperson').classList.add('active');
+	}
+
+}
+    
+    
+
+function refreshFile(){
+	fetch('result.txt')
+	.then(response => response.text())
+	.then(updateEmotionScreen) // vielleicht funktinoiert das hier nicht
+	.catch(error => {
+		console.error('Fehler beim Laden der Datei:', error);
+	});
+}
+setInterval(refreshFile, 1000); // repeat every 1 second
+
+</script>
+
+
+
+</body>  
 </html>
