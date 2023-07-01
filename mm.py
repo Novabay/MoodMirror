@@ -91,7 +91,9 @@ def recognice_face(image, cascade):
         return False, None
     return True, _face_frame_(image, faces)
     
-    #Cropping the image that only the face is on the image 
+
+#Cropping the image that only the face is on the image 
+def _crop_face_(faces, image):
     x,y,w,h = faces[0]
     faceImage = image[y:y+h,x:x+w] 
     return True, faceImage
@@ -112,14 +114,16 @@ def analyze_emotion(faceImage):
     #print(prediction[0]['dominant_emotion'])
     __count__strat__(prediction)
     
-    
+# counts the dominant emotion one up
 def __count__strat__(prediction):
     emotions[prediction[0]['dominant_emotion']] += 1
-    
+
+# sum the values for each emotion
 def __sum_strat__(prediction):
     for key in prediction[0]['emotion']:
         emotions[key] += prediction[0]['emotion'][key]
 
+# evaluate the emotion dict and write the result to txt file
 def react_to_emotion():
     print('Timer finish')
     dominantEmotion = max(emotions, key=emotions.get)
