@@ -99,11 +99,11 @@ reading information and updating page content as in our case.
 
 There is not much to do for the hardware setup of the Raspberry Pi.
 Take the included heatsinks out of the package and stick them on the 
-intended components.
+intended components (Position 1-4).
 
 ![Heatsinks Position](/assets/Pi.jpg)
 
-Once that's done, all you have to do is plug in the camera and you're ready to go. Lift the locking clip of the CSI module a little bit and plug in the cable (make sure that the bare pins point in the opposite direction with respect to the clip), to fix it just push the clip back a little bit. 
+Once that's done, all you have to do is plug in the camera and you're ready to go. Lift the locking clip of the CSI module (Position 5) a little bit and plug in the cable (make sure that the bare pins point in the opposite direction with respect to the clip), to fix it just push the clip back a little bit. 
 
 ### Os Setup
 [Raspberry Pi Image](https://www.raspberrypi.org/software/)
