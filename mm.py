@@ -32,6 +32,9 @@ def main():
                 'surprise': 0,
                 'neutral': 0
         }
+    #list of emotions to be excluded
+    global notWantedEmotions
+    notWantedEmotions = ['disgust','fear']
     
     start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime)
    
@@ -111,17 +114,30 @@ def _face_frame_(image, faces):
 def analyze_emotion(faceImage):
     prediction = DeepFace.analyze(faceImage,actions='emotion',enforce_detection=False)
     #print(prediction[0]['emotion'].keys())
+    #print('HERER',prediction[0]['emotion'])
     #print(prediction[0]['dominant_emotion'])
-    __count__strat__(prediction)
+    prediction = cut_emotion(prediction,notWantedEmotions)
+    __sum_strat__(prediction)
     
 # counts the dominant emotion one up
 def __count__strat__(prediction):
-    emotions[prediction[0]['dominant_emotion']] += 1
-
+    dominantEmotion = list(prediction[0]['emotion'].keys())[0]
+    for key in prediction[0]['emotion']:
+        if(prediction[0]['emotion'][dominantEmotion] < prediction[0]['emotion'][key]):
+            dominantEmotion = key
+    emotions[dominantEmotion] += 1
+    
 # sum the values for each emotion
 def __sum_strat__(prediction):
     for key in prediction[0]['emotion']:
         emotions[key] += prediction[0]['emotion'][key]
+
+# delete not wanted emotion from dict
+def cut_emotion(prediction, values):
+    for cutEmotion in values:
+        if cutEmotion in prediction[0]['emotion']:
+            del prediction[0]['emotion'][cutEmotion]
+    return prediction
 
 # evaluate the emotion dict and write the result to txt file
 def react_to_emotion():
@@ -131,6 +147,7 @@ def react_to_emotion():
     print(emotions)
     write_to_file(dominantEmotion)
     reset_emotion()
+    
 
 # set all values in the global emotion map to 0
 def reset_emotion():
