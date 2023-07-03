@@ -121,12 +121,12 @@ First open the terminal and use these commands to ensure that the operating syst
     sudo apt-get upgrade
    ```
 
-Install Open CV 
+Install Open CV:
   ```bash
   sudo apt install python3-opencv
   ```
 
-To check if the insterlation is successful you can open python then import opencv and get the version output.
+To check if the insterlation is successful you can open python then import opencv and get the version output:
   ```bash
   python3
  ```
@@ -135,11 +135,11 @@ To check if the insterlation is successful you can open python then import openc
   >>> cv2.__version__
   >>> quit()
 ```
-Install Deepface
+Install Deepface:
 ```bash
 pip install deepface
 ```
-To check the installation you can open python on the terminal an try to import deepface
+To check the installation you can open python on the terminal an try to import deepface:
   ```python
   >>> from deepface import DeepFace
   ```
@@ -152,10 +152,11 @@ It is only possible to clone the repo with authorization. Please contact neumuel
 Enter your username and password and confirm.The repository should be now cloned to your current directory.
 
 ### Setup Autostart
-
+To enable the automatic launch of our programs we need to create a configuration file. You need to edit this text file:
   ```
   sudo nano ~/.config/lxsession/LXDE/autostart
   ```
+Paste in these lines of code:
   ```bash
   @lxpanel --profile LXDE-pi
   @pcmanfm --desktop --profile LXDE-pi
@@ -167,6 +168,14 @@ Enter your username and password and confirm.The repository should be now cloned
   @xset -dpms
   @xset s noblank
   ```
+To save and exit the nano editor press CTRL-X, Y and then ENTER.
+Once your configuration file has been updated you are ready to test.
+  ```bash
+  startx
+   ```
+The LXDE desktop should load and start the chromium-broswer with the index.html and the mm.py script
+
+  ### Turn Monitor
 
  Required software
  Start the application
