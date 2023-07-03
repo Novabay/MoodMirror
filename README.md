@@ -51,7 +51,8 @@ micro-SD card. [What is a Raspberry Pi?](https://de.wikipedia.org/wiki/Raspberry
 ## Research
 ### Pi OS
 To start the project, we decided to use the recommended standard 
-operating system, since there are many options. We were able to get
+operating system (Raspberry Pi OS 32 Bit Debian Bullseye), 
+since there are many options. We were able to get
 off to a good start with this operating system. In the course of 
 the project it turned out that the Raspberry Pi OS (64 bit) Debian
 Bullseye is recommended by us. The biggest advantage is that the
@@ -103,7 +104,11 @@ intended components (Position 1-4).
 
 ![Heatsinks Position](/assets/Pi.jpg)
 
-Once that's done, all you have to do is plug in the camera and you're ready to go. Lift the locking clip of the CSI module a little bit and plug in the cable (make sure that the bare pins point in the opposite direction with respect to the clip), to fix it just push the clip back a little bit. 
+Once that's done, all you have to do is plug in the camera and you're
+ready to go. Lift the locking clip of the CSI module a little bit
+and plug in the cable (make sure that the bare pins point in the
+opposite direction with respect to the clip), to fix it just push the 
+clip back a little bit. 
 
 ### Os Setup
 [Raspberry Pi Image](https://www.raspberrypi.org/software/)
