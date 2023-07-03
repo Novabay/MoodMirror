@@ -6,9 +6,9 @@ from deepface import DeepFace
 
 
 def main():
-"""
-setup camera, timer, calssifier and result datastructur and start loop 
-"""
+    """
+    setup camera, timer, calssifier and result datastructur and start loop 
+    """
     #Setup Camera
     picam = Picamera2()
     config = picam.create_preview_configuration()
@@ -99,9 +99,9 @@ def start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime):
 
 
 def recognice_face(image, cascade):
-"""
-returns True if a face is recogniced and a image of the face with a red frame around it
-"""
+    """
+    returns True if a face is recogniced and a image of the face with a red frame around it
+    """
     #converts image to grayscale image the calssifikator works better with it
     imageGray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = cascade.detectMultiScale(imageGray,scaleFactor,minNeighbors)
@@ -111,9 +111,9 @@ returns True if a face is recogniced and a image of the face with a red frame ar
      
 
 def _face_frame_(image, faces):
-"""
-Helper methode to indicate where the face is detected by drawing a red frame around the area
-"""
+    """
+    Helper methode to indicate where the face is detected by drawing a red frame around the area
+    """
     for x, y, width, height in faces:
         cv2.rectangle(image, (x, y),(x + width, y + height), color=(255,0,0), thickness=3)
     return True, image
@@ -121,9 +121,9 @@ Helper methode to indicate where the face is detected by drawing a red frame aro
 
 
 def analyze_emotion(faceImage):
-"""
-analyze the emotion with Deepface and add the result depending on the strategie to the global emotion map
-"""
+    """
+    analyze the emotion with Deepface and add the result depending on the strategie to the global emotion map
+    """
     prediction = DeepFace.analyze(faceImage,actions='emotion',enforce_detection=False)
     prediction = cut_emotion(prediction,notWantedEmotions)
     if(sumVals):
@@ -133,9 +133,9 @@ analyze the emotion with Deepface and add the result depending on the strategie 
     
 
 def __count_strat(prediction):
-"""
-counts the dominant emotion one up
-"""
+    """
+    counts the dominant emotion one up
+    """
     dominantEmotion = list(prediction[0]['emotion'].keys())[0]
     for key in prediction[0]['emotion']:
         if(prediction[0]['emotion'][dominantEmotion] < prediction[0]['emotion'][key]):
@@ -144,17 +144,17 @@ counts the dominant emotion one up
     
 
 def __sum_strat(prediction):
-"""
-sum the values for each emotion to global emotions dict
-"""
+    """
+    sum the values for each emotion to global emotions dict
+    """
     for key in prediction[0]['emotion']:
         emotions[key] += prediction[0]['emotion'][key]
 
 
 def cut_emotion(prediction, values):
-"""
-delete not wanted emotion from dict
-"""
+    """
+    delete not wanted emotion from dict
+    """
     for cutEmotion in values:
         if cutEmotion in prediction[0]['emotion']:
             del prediction[0]['emotion'][cutEmotion]
@@ -162,9 +162,9 @@ delete not wanted emotion from dict
 
 
 def react_to_emotion():
-"""
-evaluate the emotion dict and write the result to result.txt file
-"""
+    """
+    evaluate the emotion dict and write the result to result.txt file
+    """
     print('Timer finish')
     dominantEmotion = max(emotions, key=emotions.get)
     print('Are you?',dominantEmotion)
@@ -174,17 +174,17 @@ evaluate the emotion dict and write the result to result.txt file
     
 
 def reset_emotion():
-"""
-set all values in the global emotion map to 0
-"""
+    """
+    set all values in the global emotion map to 0
+    """
     for key in emotions:
         emotions[key] = 0
         
 
 def write_to_file(result):
-"""
-write the dominantEmotion into a txt file for the GUI
-"""
+    """
+    write the dominantEmotion into a txt file for the GUI
+    """
     file = open('/home/pi/magicmirror/result.txt','w')
     file.write(result)
     file.close()
