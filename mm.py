@@ -15,7 +15,7 @@ def main():
     picam.configure(config)
     
     #Setup cv2 classifier
-    cascade = cv2.CascadeClassifier('/home/pi/magicmirror/haarcascade_frontalface_default.xml')
+    cascade = cv2.CascadeClassifier('/home/pi/magicmirror/assets/haarcascade_frontalface_default.xml')
     #Parameter specifying how much the image size is reduced at each image scale
     global scaleFactor
     scaleFactor = 1.35
