@@ -29,7 +29,7 @@ case, heatsink, micro-HDMI cable, power cable and
 micro-SD card. [What is a Raspberry Pi?](https://de.wikipedia.org/wiki/Raspberry_Pi)
 
 ### Hardware 
-- [Raspbeery Pi 4 B](https://www.reichelt.de/raspberry-pi-4-b-4x-1-5-ghz-4-gb-ram-wlan-bt-rasp-pi-4-b-4gb-p259920.html?&trstct=vrt_pdn&nbc=1) (4GB RAM)
+- [Raspbeery Pi 4 B](https://www.reichelt.de/raspberry-pi-4-b-4x-1-5-ghz-4-gb-ram-wlan-bt-rasp-pi-4-b-4gb-p259920.html?&trstct=vrt_pdn&nbc=1) (8GB RAM)
 - [Raspbeery Pi Camera Module 3](https://www.reichelt.com/raspberry-pi-kamera-12mp-76-v3-rasp-cam-3-p339256.html?CCOUNTRY=445&LANGUAGE=de&utm_source=display&utm_medium=rsp-foundation&src=raspberrypi&&r=1) 
 - Raspbeery Pi power supply
 - Micro-HDMI cable
@@ -100,18 +100,17 @@ reading information and updating page content as in our case.
 
 There is not much to do for the hardware setup of the Raspberry Pi.
 Take the included heatsinks out of the package and stick them on the 
-intended components (Position 1-4).
+intended components (Position 1-4). To ensure an even better heat conduction, we would recommend an active cooling with a fan. There are many cases for Raspberry Pi's with integrated fans.
 
 ![Heatsinks Position](/assets/Pi.jpg)
 
 Once that's done, all you have to do is plug in the camera and you're
 ready to go. Lift the locking clip of the CSI module a little bit
-and plug in the cable (make sure that the bare pins point in the
-opposite direction with respect to the clip), to fix it just push the 
-clip back a little bit. 
+and plug in the cable (make sure that the bare pins point in the opposite
+direction to the clip), to fix it just push the clip back a little bit. 
 
 ### Os Setup
-[Raspberry Pi Image](https://www.raspberrypi.org/software/)
+[Raspberry Pi Imager](https://www.raspberrypi.org/software/)
 
 ### Software Setup
 First use these commands to ensure that the operating system and all installed packages are up to date.
