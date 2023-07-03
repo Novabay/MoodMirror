@@ -121,25 +121,52 @@ First open the terminal and use these commands to ensure that the operating syst
     sudo apt-get upgrade
    ```
 
-Install Open CV this may take a while
- ```bash
- sudo apt install python3-opencv
- ```
+Install Open CV 
+  ```bash
+  sudo apt install python3-opencv
+  ```
 
 To check if the insterlation is successful you can open python then import opencv and get the version output.
+  ```bash
+  python3
+ ```
+ ```python
+  >>> import cv2
+  >>> cv2.__version__
+  >>> quit()
+```
+Install Deepface
 ```bash
-python3
+pip install deepface
 ```
-```python3
-import cv2
-cv2.__version__
-quit()
-```
+To check the installation you can open python on the terminal an try to import deepface
+  ```python
+  >>> from deepface import DeepFace
+  ```
 
 ### Clone Repo
+It is only possible to clone the repo with authorization. Please contact neumuelleran87784@th-nuernberg.de if you are interested.
+  ```bash
+  git clone https://git.informatik.fh-nuernberg.de/<user-name>/magicmirror.git
+  ```
+Enter your username and password and confirm.The repository should be now cloned to your current directory.
+
 ### Setup Autostart
 
-
+  ```
+  sudo nano ~/.config/lxsession/LXDE/autostart
+  ```
+  ```bash
+  @lxpanel --profile LXDE-pi
+  @pcmanfm --desktop --profile LXDE-pi
+  @lxterminal -e python /home/pi/magicmirror/mm.py
+  @xscreensaver -no-splash
+  @chromium-browser --kiosk --allow-file-access-from-files /home/pi/magicmirror/index.html
+  @sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
+  @xset s off
+  @xset -dpms
+  @xset s noblank
+  ```
 
  Required software
  Start the application
