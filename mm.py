@@ -6,7 +6,9 @@ from deepface import DeepFace
 
 
 def main():
-    
+"""
+setup camera, timer, calssifier and result datastructur and start loop 
+"""
     #Setup Camera
     picam = Picamera2()
     config = picam.create_preview_configuration()
@@ -51,6 +53,7 @@ def main():
     
 
 def start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime):
+    
     write_to_file('')
     picam.start()
     timer = None
