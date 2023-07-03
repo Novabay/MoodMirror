@@ -112,14 +112,30 @@ direction to the clip), to fix it just push the clip back a little bit.
 ### Os Setup
 You will need a microSD card to install the operating system. This should be at least 8GB in size. We use the delivered 32GB card in our project.Connect the card with an appropriate adapter to your PC and start the [Raspberry Pi Imager](https://www.raspberrypi.org/software/).
 
-Under the Operating System tab, under Raspberry Pi OS (other), select the 64-bit Raspberry Pi OS Debian Bullseye version. Select your SD card. At the cogwheel you can make further settings like enable SSH, set username and password, set up Wifi and define language settings. These advanced settings can also be changed later. Now just press write and confirm.
+Under the Operating System tab, under Raspberry Pi OS (other), select the 64-bit Raspberry Pi OS Debian Bullseye version. Select your SD card. At the cogwheel you can make further settings like enable SSH, set username and password, set up Wifi and define language settings. These advanced settings can also be changed later. Now just press write and confirm. After the installation is complete, plug the card into the Raspberry Pi, connect the screen, mouse, keyboard and connect the power. If you have already specified all the settings in the Pi imager, you should now be on the desktop. 
 
 ### Software Setup
-First use these commands to ensure that the operating system and all installed packages are up to date.
+First open the terminal and use these commands to ensure that the operating system and all installed packages are up to date.
   ```bash
     sudo apt-get update
     sudo apt-get upgrade
    ```
+
+Install Open CV this may take a while
+ ```bash
+ sudo apt install python3-opencv
+ ```
+
+To check if the insterlation is successful you can open python then import opencv and get the version output.
+```bash
+python3
+```
+```python3
+import cv2
+cv2.__version__
+quit()
+```
+
 ### Clone Repo
 ### Setup Autostart
 
