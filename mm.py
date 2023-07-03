@@ -14,8 +14,10 @@ def main():
     
     #Setup cv2 classifier
     cascade = cv2.CascadeClassifier('/home/pi/magicmirror/haarcascade_frontalface_default.xml')
+    #Parameter specifying how much the image size is reduced at each image scale
     global scaleFactor
     scaleFactor = 1.35
+    #Parameter specifying how many neighbors each candidate rectangle should have to retain it
     global minNeighbors
     minNeighbors = 7
    
@@ -39,6 +41,10 @@ def main():
     #list of emotions to be excluded
     global notWantedEmotions
     notWantedEmotions = ['disgust','fear']
+    #sum the output from deepface to emotions if True
+    #else count the dominant emotion in emotions up
+    global sumVals
+    sumVals = True
     
     start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime)
    
@@ -76,11 +82,11 @@ def start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime):
         #show cam stream
         cv2.imshow('Camera Stream',cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
                             
-
+        # exit loop if 'q' is pressed
         if (cv2.waitKey(1) == ord('q')):
             break;
         
-        #controll how many iterations 
+        #adjusts iteration to equal run time
         loopTimeDiff = time.time()-loopStartTime
         if(loopTime > loopTimeDiff):
             time.sleep(loopTime-loopTimeDiff)
@@ -89,59 +95,73 @@ def start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime):
     picam.close()
 
 
-#returns True if a face is recogniced and a cropped image of the face
 def recognice_face(image, cascade):
-    #convert image to grayscale classifier works better with it
+"""
+returns True if a face is recogniced and a image of the face with a red frame around it
+"""
+    #converts image to grayscale image the calssifikator works better with it
     imageGray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = cascade.detectMultiScale(imageGray,scaleFactor,minNeighbors)
     if len(faces) < 1:
         return False, None
     return True, _face_frame_(image, faces)
-    
+     
 
-#Cropping the image that only the face is on the image 
-def _crop_face_(faces, image):
-    x,y,w,h = faces[0]
-    faceImage = image[y:y+h,x:x+w] 
-    return True, faceImage
-    
-# Helper methode to indicate where the face is detected 
-# by drawing a red frame around the area
 def _face_frame_(image, faces):
+"""
+Helper methode to indicate where the face is detected by drawing a red frame around the area
+"""
     for x, y, width, height in faces:
         cv2.rectangle(image, (x, y),(x + width, y + height), color=(255,0,0), thickness=3)
     return True, image
 
 
-# analyze the emotion with Deepface and 
-# add the result to the global emotion map
+
 def analyze_emotion(faceImage):
+"""
+analyze the emotion with Deepface and add the result depending on the strategie to the global emotion map
+"""
     prediction = DeepFace.analyze(faceImage,actions='emotion',enforce_detection=False)
     prediction = cut_emotion(prediction,notWantedEmotions)
-    __sum_strat__(prediction)
+    if(sumVals):
+        __sum_strat(prediction)
+    else:
+        __count_strat(prediction)
     
-# counts the dominant emotion one up
-def __count__strat__(prediction):
+
+def __count_strat(prediction):
+"""
+counts the dominant emotion one up
+"""
     dominantEmotion = list(prediction[0]['emotion'].keys())[0]
     for key in prediction[0]['emotion']:
         if(prediction[0]['emotion'][dominantEmotion] < prediction[0]['emotion'][key]):
             dominantEmotion = key
     emotions[dominantEmotion] += 1
     
-# sum the values for each emotion
-def __sum_strat__(prediction):
+
+def __sum_strat(prediction):
+"""
+sum the values for each emotion to global emotions dict
+"""
     for key in prediction[0]['emotion']:
         emotions[key] += prediction[0]['emotion'][key]
 
-# delete not wanted emotion from dict
+
 def cut_emotion(prediction, values):
+"""
+delete not wanted emotion from dict
+"""
     for cutEmotion in values:
         if cutEmotion in prediction[0]['emotion']:
             del prediction[0]['emotion'][cutEmotion]
     return prediction
 
-# evaluate the emotion dict and write the result to txt file
+
 def react_to_emotion():
+"""
+evaluate the emotion dict and write the result to result.txt file
+"""
     print('Timer finish')
     dominantEmotion = max(emotions, key=emotions.get)
     print('Are you?',dominantEmotion)
@@ -150,14 +170,18 @@ def react_to_emotion():
     reset_emotion()
     
 
-# set all values in the global emotion map to 0
 def reset_emotion():
+"""
+set all values in the global emotion map to 0
+"""
     for key in emotions:
         emotions[key] = 0
         
 
-# write the dominantEmotion into a txt file for the GUI
 def write_to_file(result):
+"""
+write the dominantEmotion into a txt file for the GUI
+"""
     file = open('/home/pi/magicmirror/result.txt','w')
     file.write(result)
     file.close()
