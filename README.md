@@ -41,12 +41,6 @@ micro-SD card. [What is a Raspberry Pi?](https://de.wikipedia.org/wiki/Raspberry
 - [OpenCV](https://opencv.org) for face detection  
 - [deepFace](https://github.com/serengil/deepface) for emotion analysis 
 
-### Features
-- [x] AutoStart
-
-### Planned/Ideas
-- [ ] Interaktiv stuff
-
   
 ## Research
 ### Pi OS
@@ -92,8 +86,6 @@ reading information and updating page content as in our case.
 ### Face Detection
 ### Emotion Analysis
 ### Interface 
-
-## Development
 
 ## Setup instructions
 ### Hardware Setup
@@ -175,8 +167,17 @@ Once your configuration file has been updated you are ready to test.
    ```
 The LXDE desktop should load and start the chromium-broswer with the index.html and the mm.py script
 
-  ### Turn Monitor
-
- Required software
- Start the application
- Test programm
+### Turn Monitor
+For our mirror we took a monitor on the upright. To rotate the screen you have to make a configuration in the boot config. **It is important not to make any mistakes when editing this file**, otherwise the Raspberry Pi may not boot.
+  ```bash
+  sudo nano /boot/config.txt
+  ```
+Add this line to the end of the file:
+```txt
+display_rotate=1
+```
+To save and exit press CTRL-X, Y and then ENTER. Now you only have to reboot and the **MoodMirror** is ready to use. 
+  ```bash
+  reboot
+  ``
+Have fun!
