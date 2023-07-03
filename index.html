@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>smartmirror</title>
 <meta name="description" content="Screen.">
-<link rel="stylesheet" href="mirror.css">
+<link rel="stylesheet" href="assets/mirror.css">
 </head>
 <body>
 
@@ -15,7 +15,6 @@
 	<img id="emotion-sad" class="emotion-image" src="assets/sad.jpg" width="1080" height="1920">
 	<img id="emotion-surprised" class="emotion-image" src="assets/surprised.jpg" width="1080" height="1920">
 	<img id="emotion-neutral" class="emotion-image" src="assets/neutral.jpg" width="1080" height="1920">
-	<img id="emotion-fear" class="emotion-image" src="assets/fear.jpg" width="1080" height="1920">*/
 	<img id="emotion-angry" class="emotion-image" src="assets/angry.jpg" width="1080" height="1920">
 	<img id="emotion-noperson" class="emotion-image" src="assets/noperson.jpg" width="1080" height="1920">
 </div>
@@ -43,8 +42,6 @@ function updateEmotionScreen( emotion ){
 		document.getElementById('emotion-surprised').classList.add('active');
 	} else if (emotion === "neutral") {
 		document.getElementById('emotion-neutral').classList.add('active');
-	} else if (emotion === "fear") {
-		document.getElementById('emotion-fear').classList.add('active');
 	} else if (emotion === "angry") {
 		document.getElementById('emotion-angry').classList.add('active');
 	} else {
@@ -56,14 +53,14 @@ function updateEmotionScreen( emotion ){
     
 
 function refreshFile(){
-	fetch('result.txt')
+	fetch('/home/pi/magicmirror/result.txt')
 	.then(response => response.text())
-	.then(updateEmotionScreen) // vielleicht funktinoiert das hier nicht
+	.then(data => {updateEmotionScreen(data)}) 
 	.catch(error => {
 		console.error('Fehler beim Laden der Datei:', error);
 	});
 }
-setInterval(refreshFile, 1000); // repeat every 1 second
+setInterval(refreshFile, 3000); // repeat every 3 second
 
 </script>
 
