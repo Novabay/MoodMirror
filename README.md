@@ -146,27 +146,20 @@ Enter your username and password and confirm.The repository should be now cloned
 ### Setup Autostart
 To enable the automatic launch of our programs we need to create a configuration file. You need to edit this text file:
   ```
-  sudo nano ~/.config/lxsession/LXDE/autostart
+  sudo nano etc/xdg/lxsession/LXDE-pi/autostart
   ```
 Paste in these lines of code:
   ```bash
   @lxpanel --profile LXDE-pi
   @pcmanfm --desktop --profile LXDE-pi
-  @lxterminal -e python /home/pi/magicmirror/mm.py
   @xscreensaver -no-splash
+  @lxterminal -e python /home/pi/magicmirror/mm.py
   @chromium-browser --kiosk --allow-file-access-from-files /home/pi/magicmirror/index.html
   @sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
   @xset s off
   @xset -dpms
   @xset s noblank
   ```
-To save and exit the nano editor press CTRL-X, Y and then ENTER.
-Once your configuration file has been updated you are ready to test.
-  ```bash
-  startx
-   ```
-The LXDE desktop should load and start the chromium-broswer with the index.html and the mm.py script
-
 ### Turn Monitor
 For our mirror we took a monitor on the upright. To rotate the screen you have to make a configuration in the boot config. **It is important not to make any mistakes when editing this file**, otherwise the Raspberry Pi may not boot.
   ```bash
@@ -174,7 +167,7 @@ For our mirror we took a monitor on the upright. To rotate the screen you have t
   ```
 Add this line to the end of the file:
 ```txt
-display_rotate=1
+display_rotate=3
 ```
 To save and exit press CTRL-X, Y and then ENTER. Now you only have to reboot and the **MoodMirror** is ready to use. 
   ```bash
