@@ -110,7 +110,9 @@ and plug in the cable (make sure that the bare pins point in the opposite
 direction to the clip), to fix it just push the clip back a little bit. 
 
 ### Os Setup
-[Raspberry Pi Imager](https://www.raspberrypi.org/software/)
+You will need a microSD card to install the operating system. This should be at least 8GB in size. We use the delivered 32GB card in our project.Connect the card with an appropriate adapter to your PC and start the [Raspberry Pi Imager](https://www.raspberrypi.org/software/).
+
+Under the Operating System tab, under Raspberry Pi OS (other), select the 64-bit Raspberry Pi OS Debian Bullseye version. Select your SD card. At the cogwheel you can make further settings like enable SSH, set username and password, set up Wifi and define language settings. These advanced settings can also be changed later. Now just press write and confirm.
 
 ### Software Setup
 First use these commands to ensure that the operating system and all installed packages are up to date.
