@@ -143,6 +143,13 @@ It is only possible to clone the repo with authorization. Please contact neumuel
   ```
 Enter your username and password and confirm.The repository should be now cloned to your current directory.
 
+#### Store git credentials
+  ```bash
+  git config --global credential.helper stor`
+  git pull
+  ```
+  Enter your credentials and they will be rememberd.
+
 ### Setup Autostart
 To enable the automatic launch of our programs we need to create a configuration file. You need to edit this text file:
   ```
@@ -155,7 +162,6 @@ Paste in these lines of code:
   @xscreensaver -no-splash
   @lxterminal -e python /home/pi/magicmirror/mm.py
   @chromium-browser --kiosk --allow-file-access-from-files /home/pi/magicmirror/index.html
-  @sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
   @xset s off
   @xset -dpms
   @xset s noblank
