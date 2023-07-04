@@ -83,7 +83,7 @@ def start_camera_stream(picam, cascade, analyzeTime, loopTime, resetTime):
                 resetFile.start()
                 
         #show cam stream
-        cv2.imshow('Camera Stream',cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
+        #cv2.imshow('Camera Stream',cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
                             
         # exit loop if 'q' is pressed
         if (cv2.waitKey(1) == ord('q')):
